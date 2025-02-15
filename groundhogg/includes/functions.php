@@ -702,8 +702,35 @@ function validate_tags( $maybe_tags ) {
  *
  * @return string
  */
-function do_replacements( $content = '', $contact_id = 0, $context = 'html' ) {
+/*function do_replacements( $content = '', $contact_id = 0, $context = 'html' ) {
 	return Plugin::$instance->replacements->process( $content, $contact_id, $context );
+}*/
+/**
+ * Replacements Wrapper for large scale data processing.
+ *
+ * @param string|array      $content
+ * @param int|Contact $contact_id
+ * @param string      $context what context the replacements are being used for. 'html' or 'plain'
+ *
+ * @return string|array
+ */
+function do_replacements( $content = '', $contact_id = 0, $context = 'html' ) {
+    if (is_array($content)) {
+        $result = [];
+        foreach ($content as $key => $item) {
+            // If nested arrays, recursively handle them
+            if (is_array($item)) {
+                $result[$key] = do_replacements($item, $contact_id, $context);
+            } else {
+                // Process each item individually, preserving structure
+                $result[$key] = Plugin::$instance->replacements->process((string)$item, $contact_id, $context);
+            }
+        }
+        return $result;
+    } else {
+        // Directly process if it's not an array
+        return Plugin::$instance->replacements->process((string)$content, $contact_id, $context);
+    }
 }
 
 /**
