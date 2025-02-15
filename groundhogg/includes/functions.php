@@ -705,6 +705,7 @@ function validate_tags( $maybe_tags ) {
 /*function do_replacements( $content = '', $contact_id = 0, $context = 'html' ) {
 	return Plugin::$instance->replacements->process( $content, $contact_id, $context );
 }*/
+//BTR 209 v2 grok
 /**
  * Replacements Wrapper for large scale data processing.
  *
@@ -732,7 +733,7 @@ function do_replacements( $content = '', $contact_id = 0, $context = 'html' ) {
         return Plugin::$instance->replacements->process((string)$content, $contact_id, $context);
     }
 }
-
+//End Btr 209 v2 Grok
 /**
  * Pass plain as the context to do_replacements
  *
